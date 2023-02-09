@@ -12,7 +12,7 @@
                 margin: 0px;                
             }
             .fullscreen {
-                background: #383838;
+                background: #3a3a3a;
                 width: 100%;
                 height: 100%;
                 position: absolute;
@@ -39,14 +39,14 @@
                 width: 90%;
                 max-width: 250px;
                 height: 20px;
-                background: #242424;
+                background: #565656;
                 padding: 5px;
             }
             #progress-bar-fill {
                 border-radius: 3px;
                 width: 0%;
                 height: 100%;
-                background: #8444FF;
+                background: #6d006d;
             }
         </style>
         <link rel="stylesheet" type="text/css" href="./instant-games-bridge-vk-banner-extension.css">
@@ -142,9 +142,9 @@
                         createUnityInstance(
                             canvas,
                             {
-                                dataUrl: 'Build/2048.data',
-                                frameworkUrl: 'Build/2048.framework.js',
-                                codeUrl: 'Build/2048.wasm',
+                                dataUrl: 'Build/2048.data.gz',
+                                frameworkUrl: 'Build/2048.framework.js.gz',
+                                codeUrl: 'Build/2048.wasm.gz',
                                 streamingAssetsUrl: 'StreamingAssets',
                                 companyName: 'togoplay',
                                 productName: '2048 Числопад',
