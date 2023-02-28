@@ -137,18 +137,18 @@
                     bridge.game.on('visibility_state_changed', state => sendMessageToUnity('OnVisibilityStateChanged', state))
 
                     let unityLoader = document.createElement('script')
-                    unityLoader.src = 'Build/2048opt.loader.js'
+                    unityLoader.src = 'Build/2048.loader.js'
                     unityLoader.onload = () => {
                         createUnityInstance(
                             canvas,
                             {
-                                dataUrl: 'Build/2048opt.data',
-                                frameworkUrl: 'Build/2048opt.framework.js',
-                                codeUrl: 'Build/2048opt.wasm',
+                                dataUrl: 'Build/2048.data',
+                                frameworkUrl: 'Build/2048.framework.js',
+                                codeUrl: 'Build/2048.wasm',
                                 streamingAssetsUrl: 'StreamingAssets',
                                 companyName: 'togoplay',
                                 productName: '2048 Числопад',
-                                productVersion: '1.0',
+                                productVersion: '666',
                                 // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
                                 // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
                             },
