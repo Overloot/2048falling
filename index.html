@@ -137,14 +137,14 @@
                     bridge.game.on('visibility_state_changed', state => sendMessageToUnity('OnVisibilityStateChanged', state))
 
                     let unityLoader = document.createElement('script')
-                    unityLoader.src = 'Build/2048.loader.js'
+                    unityLoader.src = 'Build/2048opt.loader.js'
                     unityLoader.onload = () => {
                         createUnityInstance(
                             canvas,
                             {
-                                dataUrl: 'Build/2048.data',
-                                frameworkUrl: 'Build/2048.framework.js',
-                                codeUrl: 'Build/2048.wasm',
+                                dataUrl: 'Build/2048opt.data',
+                                frameworkUrl: 'Build/2048opt.framework.js',
+                                codeUrl: 'Build/2048opt.wasm',
                                 streamingAssetsUrl: 'StreamingAssets',
                                 companyName: 'togoplay',
                                 productName: '2048 Числопад',
