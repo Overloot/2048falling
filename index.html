@@ -9,7 +9,7 @@
                 width: 100%;
                 height: 100%;
                 padding: 0px;
-                margin: 0px;                
+                margin: 0px;
             }
             .fullscreen {
                 background: #3a3a3a;
@@ -19,6 +19,13 @@
                 top: 0px;
                 left: 0px;
             }
+            #crazy-games-responsive-banner-container {
+                position: absolute;
+                bottom: 0px;
+                width: 100%;
+                height: 90px;
+                display: none;
+            }
             #loading-overlay {
                 font-size: 20px;
                 z-index: 1;
@@ -27,10 +34,8 @@
                 justify-content: center;
                 align-items: center;
             }
-            #icon {                
-                <!-- max-width: 240px; -->
-                width: 240px;
-                height: 240px;
+            #icon {
+                max-width: 120px;
                 border-radius: 10px;
                 margin-bottom: 20px;
             }
@@ -49,15 +54,14 @@
                 background: #6d006d;
             }
         </style>
-        <link rel="stylesheet" type="text/css" href="./instant-games-bridge-vk-banner-extension.css">
     </head>
     <body>
         <canvas id="canvas" class="fullscreen"></canvas>
+        <div id="crazy-games-responsive-banner-container"></div>
         <div id="loading-overlay" class="fullscreen">
             <img id="icon" src="./icon.png" />
             <div id="progress-bar"><div id="progress-bar-fill"></div></div>
         </div>
-        <script src="./instant-games-bridge-vk-banner-extension.js"></script>
         <script src="./instant-games-bridge.js"></script>
         <script>
             if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -132,6 +136,7 @@
             bridge
                 .initialize()
                 .then(() => {
+                    bridge.advertisement.on('banner_state_changed', state => sendMessageToUnity('OnBannerStateChanged', state))
                     bridge.advertisement.on('interstitial_state_changed', state => sendMessageToUnity('OnInterstitialStateChanged', state))
                     bridge.advertisement.on('rewarded_state_changed', state => sendMessageToUnity('OnRewardedStateChanged', state))
                     bridge.game.on('visibility_state_changed', state => sendMessageToUnity('OnVisibilityStateChanged', state))
@@ -183,6 +188,10 @@
                 } else {
                     return ''
                 }
+            }
+
+            window.sendMessageToPlatform = function(message) {
+                bridge.platform.sendMessage(message)
             }
 
 
@@ -320,10 +329,6 @@
             window.getIsBannerSupported = function() {
                 return bridge.advertisement.isBannerSupported.toString()
             }
-
-            window.getIsBannerShowing = function() {
-                return bridge.advertisement.isBannerShowing.toString()
-            }
             
             window.getMinimumDelayBetweenInterstitial = function() {
                 return bridge.advertisement.minimumDelayBetweenInterstitial.toString()
@@ -334,43 +339,23 @@
             }
 
             window.showBanner = function(options) {
-                bridge.advertisement.showBanner(JSON.parse(options))
-                    .then(() => {
-                        sendMessageToUnity('OnShowBannerCompleted', 'true')
-                    })
-                    .catch(error => {
-                        sendMessageToUnity('OnShowBannerCompleted', 'false')
-                    })
+                options = JSON.parse(options)
+                options['crazy_games'] = {
+                    containerId: 'crazy-games-responsive-banner-container'
+                }
+                bridge.advertisement.showBanner(options)
             }
 
             window.hideBanner = function() {
                 bridge.advertisement.hideBanner()
-                    .then(() => {
-                        sendMessageToUnity('OnHideBannerCompleted', 'true')
-                    })
-                    .catch(error => {
-                        sendMessageToUnity('OnHideBannerCompleted', 'false')
-                    })
             }
 
             window.showInterstitial = function(options) {
                 bridge.advertisement.showInterstitial(JSON.parse(options))
-                    .then(() => {
-                        sendMessageToUnity('OnShowInterstitialCompleted', 'true')
-                    })
-                    .catch(error => {
-                        sendMessageToUnity('OnShowInterstitialCompleted', 'false')
-                    })
             }
 
             window.showRewarded = function() {
                 bridge.advertisement.showRewarded()
-                    .then(() => {
-                        sendMessageToUnity('OnShowRewardedCompleted', 'true')
-                    })
-                    .catch(error => {
-                        sendMessageToUnity('OnShowRewardedCompleted', 'false')
-                    })
             }
 
 
